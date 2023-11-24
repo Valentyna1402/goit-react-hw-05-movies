@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { fetchMovieDetails } from '../components/API';
 import { MovieItem } from 'components/MovieItem';
+import Cast from 'components/Cast';
 
 
 export default function MovieDetailsPage() {
@@ -17,10 +18,11 @@ export default function MovieDetailsPage() {
               setMovie(movieItem);
               setLoading(false);
             } catch (error) {
+                console.log(error)
             }
           }
           getMovieDetails();
-    },[])
+    },[movieId])
     
 
    return (
@@ -29,12 +31,10 @@ export default function MovieDetailsPage() {
           <div>
             <p>Additional information</p>
             <ul>
-              <li>
-                <NavLink to="cast">Cast</NavLink>
+              <li><NavLink to="cast">Cast</NavLink>
+              <Cast />
               </li>
-              <li>
-                <NavLink to="reviews">Reviews</NavLink>
-              </li>
+              <li><NavLink to="reviews">Reviews</NavLink></li>
             </ul>
           </div>
         </div>

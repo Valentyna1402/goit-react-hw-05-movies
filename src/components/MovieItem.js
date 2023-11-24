@@ -6,7 +6,7 @@ export const MovieItem = ({movie}) => {
 
     const [src, setSrc] = useState('');
 
-    const {title, release_date, vote_average, overview, genres} = movie;
+    const {title, release_date, vote_average, overview, genres, poster_path} = movie;
     const releaseDate = new Date(release_date).getFullYear(); 
     const userScore = Math.round((vote_average/10)*100);
 
@@ -16,13 +16,14 @@ export const MovieItem = ({movie}) => {
               const config = await fetchConfiguration();
               const baseUrl = config.base_url;
               const posterSize = config.poster_sizes[3];
-              const posterSrc = `${baseUrl}${posterSize}${movie.poster_path}`;
+              const posterSrc = `${baseUrl}${posterSize}${poster_path}`;
               setSrc(posterSrc);
             } catch (error) {
+              console.log(error)
             }
           }
           getPosterUrl();
-    },[])
+    },[poster_path])
 
   return <div>
           <img src={src} alt='movie poster' />

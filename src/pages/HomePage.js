@@ -5,7 +5,8 @@ import { MoviesList } from 'components/MoviesList';
 
 export default function HomePage() {
   const [topMovies, setTopMovies] = useState([]);
-  const [setError] = useState(false);
+  const [error, setError] = useState(false);
+  console.log(error)
 
   useEffect(() => {
     async function getTopMovies() {

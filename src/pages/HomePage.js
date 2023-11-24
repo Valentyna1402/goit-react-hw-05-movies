@@ -14,7 +14,7 @@ export default function HomePage() {
         const topMovies = await fetchTrendMovies();
         setTopMovies(topMovies);
       } catch (error) {
-        setError(true);
+        console.log(error)
       }
     }
     getTopMovies();

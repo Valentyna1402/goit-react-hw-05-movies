@@ -1,6 +1,7 @@
 import { fetchSearchedMovies } from 'components/API';
 import SearchForm from 'components/SearchForm';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function MoviesPage() {
   const [query, setQuery] = useState('');
@@ -32,7 +33,9 @@ export default function MoviesPage() {
       {movies.length > 0 && (
         <ul>
           {movies.map(movie => {
-            return <li key={movie.id}>{movie.title}</li>;
+            return <li key={movie.id}>
+            <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+            </li>;
           })}
         </ul>
       )}

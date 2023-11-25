@@ -46,7 +46,9 @@ export default function Cast() {
             const imageSrc = `${src}${item.profile_path}`;
             return (
               <li key={item.cast_id}>
-                <img src={imageSrc} alt="artist pipture" />
+                {item.profile_path !== null && (
+                  <img src={imageSrc} alt="artist" />
+                )}
                 <p>{item.name}</p>
                 <p>Character: {item.character}</p>
               </li>

@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 
 import { fetchMovieDetails } from '../components/API';
 import { MovieItem } from 'components/MovieItem';
-import Cast from 'components/Cast';
+//import Cast from 'components/Cast';
+//import Reviews from 'components/Reviews';
 
 
 export default function MovieDetailsPage() {
@@ -32,9 +33,9 @@ export default function MovieDetailsPage() {
             <p>Additional information</p>
             <ul>
               <li><NavLink to="cast">Cast</NavLink>
-              <Cast />
               </li>
-              <li><NavLink to="reviews">Reviews</NavLink></li>
+              <li><NavLink to="reviews">Reviews</NavLink>
+              </li>
             </ul>
           </div>
         </div>

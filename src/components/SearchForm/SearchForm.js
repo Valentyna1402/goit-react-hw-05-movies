@@ -1,8 +1,10 @@
 import { IoSearchOutline } from 'react-icons/io5';
 
+import { Form, Input, Button } from './SearchForm.styled';
+
 export default function SearchForm({ onSubmit: handleSubmit }) {
   return (
-    <form
+    <Form
       onSubmit={evt => {
         evt.preventDefault();
         const query = evt.target.input.value;
@@ -10,16 +12,16 @@ export default function SearchForm({ onSubmit: handleSubmit }) {
         evt.target.reset();
       }}
     >
-      <input
+      <Input
         type="text"
         name="input"
         autoComplete="off"
         autoFocus
         placeholder="Search movies"
-      ></input>
-      <button type="submit">
+      ></Input>
+      <Button type="submit">
         <IoSearchOutline />
-      </button>
-    </form>
+      </Button>
+    </Form>
   );
 }

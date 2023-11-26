@@ -3,6 +3,17 @@ import { Link } from 'react-router-dom';
 
 import { fetchConfiguration } from '../API';
 import Error from 'components/Error/Error';
+import {
+  List,
+  ItemWrapper,
+  Text,
+  TextWrapper,
+  Title,
+  Overview,
+  ListItem,
+  GenreList,
+  Genres,
+} from './MovieItem.styled';
 
 export const MovieItem = ({ movie }) => {
   const [src, setSrc] = useState('');
@@ -32,30 +43,33 @@ export const MovieItem = ({ movie }) => {
   return (
     <div>
       {error && <Error />}
-      <img src={src} alt="movie poster" />
-      <h2>
-        {title} ({releaseDate})
-      </h2>
-      <p>User score: {userScore} %</p>
-      <h3>Overview</h3>
-      <p>{overview}</p>
-      <h4>Genres</h4>
-
-      <ul>
-        {genres.map(({ id, name }) => {
-          return <li key={id}>{name}</li>;
-        })}
-      </ul>
+      <ItemWrapper>
+        <img src={src} alt="movie poster" />
+        <TextWrapper>
+          <Title>
+            {title} ({releaseDate})
+          </Title>
+          <Text>User score: {userScore} %</Text>
+          <Overview>Overview</Overview>
+          <Text>{overview}</Text>
+          <Genres>Genres</Genres>
+          <GenreList>
+            {genres.map(({ id, name }) => {
+              return <ListItem key={id}>{name}</ListItem>;
+            })}
+          </GenreList>
+        </TextWrapper>
+      </ItemWrapper>
       <div>
         <p>Additional information</p>
-        <ul>
-          <li>
+        <List>
+          <ListItem>
             <Link to="cast">Cast</Link>
-          </li>
-          <li>
+          </ListItem>
+          <ListItem>
             <Link to="reviews">Reviews</Link>
-          </li>
-        </ul>
+          </ListItem>
+        </List>
       </div>
     </div>
   );

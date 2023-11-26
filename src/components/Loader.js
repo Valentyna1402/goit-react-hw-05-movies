@@ -8,7 +8,7 @@ export default function Loader() {
       width={100}
       strokeWidth={5}
       strokeWidthSecondary={1}
-      color="blue"
+      color="rgba(148, 136, 255, 0.815)"
       secondaryColor="white"
     />
   );

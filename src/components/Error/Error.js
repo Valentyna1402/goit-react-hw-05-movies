@@ -1,3 +1,5 @@
+import { Text } from "./Error.styled"
+
 export default function Error () {
-    return <p>Oops! Something went wrong! Please, reload this page!</p>
+    return <Text>Oops! Something went wrong! Please, reload this page!</Text>
 }

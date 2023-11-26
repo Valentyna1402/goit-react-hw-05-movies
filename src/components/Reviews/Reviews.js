@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { fetchMovieReviews } from '../API';
 import Loader from 'components/Loader';
 import Error from 'components/Error/Error';
+import { List, Item, Text, TextAccent } from './Reviews.styled';
 
 export default function Reviews() {
   const [review, setReview] = useState({});
@@ -30,17 +31,19 @@ export default function Reviews() {
       {loading && <Loader />}
       {error && <Error />}
       {review.length > 0 ? (
-        <ul>
+        <List>
           {review.map(({ id, author, content }) => {
             return (
-              <li key={id}>
-                <p>Author: {author}</p>
-                <p>{content}</p>
-              </li>
+              <Item key={id}>
+                <TextAccent>Author: {author}</TextAccent>
+                <Text>{content}</Text>
+              </Item>
             );
           })}
-        </ul>
-      ) : <p>No reviews yet</p>}
+        </List>
+      ) : (
+        <Text>We don't have any reviews for this movie.</Text>
+      )}
     </div>
   );
 }

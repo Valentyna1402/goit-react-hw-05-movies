@@ -1,44 +1,51 @@
 import { fetchSearchedMovies } from 'components/API';
-import SearchForm from 'components/SearchForm';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
+
+import SearchForm from 'components/SearchForm/SearchForm';
+import { MoviesList } from 'components/MoviesList/MoviesList';
+import Loader from 'components/Loader';
+import Error from 'components/Error/Error';
 
 export default function MoviesPage() {
-  const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [params, setParams] = useSearchParams();
+  const query = params.get('query') ?? ' ';
 
   useEffect(() => {
     async function getMoviesbyQuery() {
       if (query === '') {
+        toast.error('Please, enter your request');
         return;
       }
       try {
+        setError(false);
+        setLoading(true);
         const moviesItems = await fetchSearchedMovies(query);
         setMovies(moviesItems);
+      } catch (error) {
+        setError(true);
+      } finally {
         setLoading(false);
-      } catch (error) {}
+      }
     }
     getMoviesbyQuery();
   }, [query]);
 
   const handleSubmit = newQuery => {
-    setQuery(newQuery);
+    params.set('query', newQuery);
+    setParams(params);
   };
 
   return (
     <div>
       <SearchForm onSubmit={handleSubmit}></SearchForm>
-      {loading && <p>Loading..</p>}
-      {movies.length > 0 && (
-        <ul>
-          {movies.map(movie => {
-            return <li key={movie.id}>
-            <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
-            </li>;
-          })}
-        </ul>
-      )}
+      {loading && <Loader />}
+      {error && <Error />}
+      {movies.length > 0 && <MoviesList items={movies} />}
     </div>
   );
 }

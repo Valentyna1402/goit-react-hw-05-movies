@@ -1,43 +1,45 @@
-import { NavLink, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useParams,
+} from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
 
 import { fetchMovieDetails } from '../components/API';
-import { MovieItem } from 'components/MovieItem';
-//import Cast from 'components/Cast';
-//import Reviews from 'components/Reviews';
-
+import { MovieItem } from 'components/MovieItem/MovieItem';
+import Loader from 'components/Loader';
+import Error from 'components/Error/Error';
 
 export default function MovieDetailsPage() {
-    const [movie, setMovie] = useState({});
-    const [loading, setLoading] = useState(true);
-    const { movieId } = useParams();
+  const [movie, setMovie] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const { movieId } = useParams();
+  const location = useLocation();
+  const backLinkRef = useRef(location);
 
-    useEffect(() => {
-        async function getMovieDetails() {
-            try {
-              const movieItem = await fetchMovieDetails(movieId);
-              setMovie(movieItem);
-              setLoading(false);
-            } catch (error) {
-                console.log(error)
-            }
-          }
-          getMovieDetails();
-    },[movieId])
-    
+  useEffect(() => {
+    async function getMovieDetails() {
+      try {
+        setError(false);
+        const movieItem = await fetchMovieDetails(movieId);
+        setMovie(movieItem);
+      } catch (error) {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+    getMovieDetails();
+  }, [movieId]);
 
-   return (
-        <div>
-            {loading ? <p>Loading..</p> : <MovieItem movie={movie}/>}
-          <div>
-            <p>Additional information</p>
-            <ul>
-              <li><NavLink to="cast">Cast</NavLink>
-              </li>
-              <li><NavLink to="reviews">Reviews</NavLink>
-              </li>
-            </ul>
-          </div>
-        </div>
-      );
-  }
+  return (
+    <div>
+      <Link to={backLinkRef.current.state?.from ?? '/movies'} className='backLinkRef'>Go back</Link>
+      {loading ? <Loader /> : <MovieItem movie={movie} />}
+      {error && <Error />}
+      <Outlet />
+    </div>
+  );
+}

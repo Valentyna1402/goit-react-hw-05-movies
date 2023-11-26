@@ -10,8 +10,7 @@ export const fetchTrendMovies = async () => {
 
 export const fetchSearchedMovies = async query => {
   const response = await axios.get(
-    `/search/movie?query=${query}&api_key=${API_KEY}`
-  );
+    `/search/movie?query=${query}&api_key=${API_KEY}`);
   return response.data.results;
 };
 
@@ -28,15 +27,11 @@ export const fetchMovieCast = async movieId => {
 
 export const fetchMovieReviews = async movieId => {
   const response = await axios.get(
-    `/movie/${movieId}/reviews?api_key=${API_KEY}`
-  );
+    `/movie/${movieId}/reviews?api_key=${API_KEY}`);
   return response.data.results;
 };
 
-
 export const fetchConfiguration = async () => {
-    const response = await axios.get(
-        `/configuration?api_key=${API_KEY}`
-    );
-    return response.data.images;
-}
+  const response = await axios.get(`/configuration?api_key=${API_KEY}`);
+  return response.data.images;
+};

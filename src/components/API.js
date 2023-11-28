@@ -30,8 +30,3 @@ export const fetchMovieReviews = async movieId => {
     `/movie/${movieId}/reviews?api_key=${API_KEY}`);
   return response.data.results;
 };
-
-export const fetchConfiguration = async () => {
-  const response = await axios.get(`/configuration?api_key=${API_KEY}`);
-  return response.data.images;
-};

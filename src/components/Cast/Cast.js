@@ -3,7 +3,6 @@ import { fetchMovieCast } from '../API';
 import { useParams } from 'react-router-dom';
 
 import Loader from 'components/Loader';
-import { fetchConfiguration } from '../API';
 import Error from 'components/Error/Error';
 import { List, Item, Text } from './Cast.styled';
 import NoImage from './images/no-photo-available-icon.jpg';
@@ -12,7 +11,6 @@ export default function Cast() {
   const [cast, setCast] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [src, setSrc] = useState('');
   const { movieId } = useParams();
 
   useEffect(() => {
@@ -29,19 +27,6 @@ export default function Cast() {
     getMovieCast();
   }, [movieId]);
 
-  useEffect(() => {
-    async function getImageUrl() {
-      try {
-        const config = await fetchConfiguration();
-        const baseUrl = config.base_url;
-        const imageSize = config.poster_sizes[0];
-        const imageSrc = `${baseUrl}${imageSize}`;
-        setSrc(imageSrc);
-      } catch (error) {}
-    }
-    getImageUrl();
-  }, []);
-
   return (
     <div>
       {loading && <Loader />}
@@ -49,14 +34,12 @@ export default function Cast() {
       {cast.length > 0 ? (
         <List>
           {cast.map(({ profile_path, cast_id, name, character }) => {
-            const imageSrc = `${src}${profile_path}`;
+            const src = profile_path
+            ? `https://image.tmdb.org/t/p/w92/${profile_path}`
+            : NoImage;
             return (
               <Item key={cast_id}>
-                {profile_path !== null ? (
-                  <img src={imageSrc} alt="artist" />
-                ) : (
-                  <img src={NoImage} alt="artist" width={92} height={138} />
-                )}
+                  <img src={src} alt="artist" width={92}/>
                 <div>
                   <Text>{name}</Text>
                   <Text>

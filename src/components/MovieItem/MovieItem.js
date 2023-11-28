@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import NoImage from './images/no-image-available.jpg'
 
-import { fetchConfiguration } from '../API';
-import Error from 'components/Error/Error';
 import {
   List,
   ItemWrapper,
@@ -16,35 +14,19 @@ import {
 } from './MovieItem.styled';
 
 export const MovieItem = ({ movie }) => {
-  const [src, setSrc] = useState('');
-  const [error, setError] = useState(false);
-
   const { title, release_date, vote_average, overview, genres, poster_path } =
     movie;
   const releaseDate = new Date(release_date).getFullYear();
   const userScore = Math.round((vote_average / 10) * 100);
 
-  useEffect(() => {
-    async function getPosterUrl() {
-      try {
-        setError(false);
-        const config = await fetchConfiguration();
-        const baseUrl = config.base_url;
-        const posterSize = config.poster_sizes[3];
-        const posterSrc = `${baseUrl}${posterSize}${poster_path}`;
-        setSrc(posterSrc);
-      } catch (error) {
-        setError(true);
-      }
-    }
-    getPosterUrl();
-  }, [poster_path]);
+  const src = poster_path
+    ? `https://image.tmdb.org/t/p/w300/${poster_path}`
+    : NoImage;
 
   return (
     <div>
-      {error && <Error />}
       <ItemWrapper>
-        <img src={src} alt="movie poster" />
+        <img src={src} alt="movie poster" width='300' />
         <TextWrapper>
           <Title>
             {title} ({releaseDate})

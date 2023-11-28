@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { lazy } from 'react';
 
@@ -21,7 +21,7 @@ export const App = () => {
             <Route path="cast" element={<Cast />} />
             <Route path="reviews" element={<Reviews />} />
           </Route>
-          <Route path="*" element={<HomePage />} />
+          <Route path="*" element={<Navigate to='/' replace />} />
         </Route>
       </Routes>
       <Toaster />

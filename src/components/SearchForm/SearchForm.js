@@ -8,7 +8,7 @@ export default function SearchForm({ onSubmit: handleSubmit }) {
       onSubmit={evt => {
         evt.preventDefault();
         const query = evt.target.input.value;
-        handleSubmit(query.toLowerCase());
+        handleSubmit(query.trim().toLowerCase());
         evt.target.reset();
       }}
     >

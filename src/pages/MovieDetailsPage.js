@@ -1,9 +1,4 @@
-import {
-  Link,
-  Outlet,
-  useLocation,
-  useParams,
-} from 'react-router-dom';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 
 import { fetchMovieDetails } from '../components/API';
@@ -12,12 +7,12 @@ import Loader from 'components/Loader';
 import Error from 'components/Error/Error';
 
 export default function MovieDetailsPage() {
-  const [movie, setMovie] = useState({});
+  const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const { movieId } = useParams();
   const location = useLocation();
-  const backLinkRef = useRef(location);
+  const backLinkRef = useRef(location).current.state?.from ?? '/movies';
 
   useEffect(() => {
     async function getMovieDetails() {
@@ -36,8 +31,11 @@ export default function MovieDetailsPage() {
 
   return (
     <div>
-      <Link to={backLinkRef.current.state?.from ?? '/movies'} className='backLinkRef'>Go back</Link>
-      {loading ? <Loader /> : <MovieItem movie={movie} />}
+      <Link to={backLinkRef} className="backLinkRef">
+        Go back
+      </Link>
+      {loading && <Loader />}
+      {movie && <MovieItem movie={movie} />}
       {error && <Error />}
       <Outlet />
     </div>

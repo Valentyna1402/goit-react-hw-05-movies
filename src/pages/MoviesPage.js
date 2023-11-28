@@ -13,14 +13,11 @@ export default function MoviesPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [params, setParams] = useSearchParams();
-  const query = params.get('query') ?? ' ';
+  const query = params.get('query') ?? '';
 
   useEffect(() => {
+    if (!query) return;
     async function getMoviesbyQuery() {
-      if (query === '') {
-        toast.error('Please, enter your request');
-        return;
-      }
       try {
         setError(false);
         setLoading(true);
@@ -36,6 +33,10 @@ export default function MoviesPage() {
   }, [query]);
 
   const handleSubmit = newQuery => {
+    if (newQuery === '') {
+      toast.error('Please, enter your request');
+      return;
+    }
     params.set('query', newQuery);
     setParams(params);
   };
